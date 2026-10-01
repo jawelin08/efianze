@@ -19,9 +19,13 @@
 	
     <platform name="android">
         <allow-intent href="market:*" />
+        <icon src="www/assets/branding/icon-ldpi.png" density="ldpi" />
+        <icon src="www/assets/branding/icon-mdpi.png" density="mdpi" />
+        <icon src="www/assets/branding/icon-hdpi.png" density="hdpi" />
+        <icon src="www/assets/branding/icon-xhdpi.png" density="xhdpi" />
+        <icon src="www/assets/branding/icon-xxhdpi.png" density="xxhdpi" />
+        <icon src="www/assets/branding/icon-xxxhdpi.png" density="xxxhdpi" />
     </platform>
-
-    <icon src="www\assets\images\icono.png" platform="android"/>
 	
 	<preference name="android-minSdkVersion" value="22" /> 
     <preference name="android-targetSdkVersion" value="33" /> 

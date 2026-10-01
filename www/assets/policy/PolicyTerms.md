@@ -12,11 +12,11 @@ La aplicación procesa la dirección de correo electrónico, una contraseña alm
 
 ## 3. Finalidad y alojamiento
 
-Estos datos se usan para iniciar sesión y mantener la información del hogar sincronizada entre los dispositivos autorizados. La base de datos se aloja en PostgreSQL en Railway y puede ser accesible para quienes administren ese proyecto. El inicio de sesión y la sincronización requieren conexión a Internet.
+Estos datos se usan para iniciar sesión y mantener la información del hogar sincronizada entre los dispositivos autorizados. La base de datos MySQL se aloja en Railway y puede ser accesible para quienes administren ese proyecto. El inicio de sesión y la sincronización requieren conexión a Internet.
 
 ## 4. Acceso y proveedores
 
-El API limita las cuentas a los correos autorizados por el administrador del hogar y requiere un código de invitación para el registro. Railway presta el alojamiento del servidor y la base de datos. La aplicación no usa publicidad ni analítica.
+El API limita las cuentas a los correos autorizados por el administrador del hogar. Railway presta el alojamiento del servidor y la base de datos. La aplicación no usa publicidad ni analítica.
 
 ## 5. Conservación y eliminación
 
@@ -24,7 +24,7 @@ La opción «Borrar datos» elimina los datos financieros del hogar sincronizado
 
 ## 6. Seguridad y límites
 
-Las contraseñas se guardan con scrypt y las sesiones usan tokens revocables. El uso de la URL HTTPS de Railway protege el transporte. Los datos financieros no cuentan con cifrado de extremo a extremo: el administrador de PostgreSQL puede leerlos. Mantén privados los datos de acceso y activa copias de seguridad del proyecto.
+Las contraseñas se guardan con scrypt y las sesiones usan tokens revocables. El uso de la URL HTTPS de Railway protege el transporte. Los datos financieros no cuentan con cifrado de extremo a extremo: el administrador de MySQL puede leerlos. Mantén privados los datos de acceso y activa copias de seguridad del proyecto.
 
 ## 7. Cookies y almacenamiento local
 

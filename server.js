@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 const { promisify } = require('util');
-const { Pool } = require('pg');
+const mysql = require('mysql2/promise');
 
 const root = path.resolve(__dirname, 'www');
 const port = Number(process.env.PORT) || 4354;
@@ -14,9 +14,22 @@ const allowedUsers = new Set(
     .map((email) => email.trim().toLowerCase())
     .filter(Boolean),
 );
-const pool = process.env.DATABASE_URL
-  ? new Pool({ connectionString: process.env.DATABASE_URL })
-  : null;
+const mysqlUrl = process.env.MYSQL_URL || process.env.MYSQL_PUBLIC_URL;
+const mysqlHost = process.env.MYSQLHOST || process.env.MYSQL_HOST;
+const pool = mysqlUrl
+  ? mysql.createPool(mysqlUrl)
+  : mysqlHost && process.env.MYSQLUSER && process.env.MYSQLPASSWORD && process.env.MYSQLDATABASE
+    ? mysql.createPool({
+        host: mysqlHost,
+        port: Number(process.env.MYSQLPORT || process.env.MYSQL_PORT || 3306),
+        user: process.env.MYSQLUSER,
+        password: process.env.MYSQLPASSWORD,
+        database: process.env.MYSQLDATABASE,
+        waitForConnections: true,
+        connectionLimit: 10,
+        enableKeepAlive: true,
+      })
+    : null;
 const authAttempts = new Map();
 let databaseReady = false;
 const contentTypes = {
@@ -79,8 +92,8 @@ const makePasswordHash = async (password, salt) =>
 const issueSession = async (userId) => {
   const token = crypto.randomBytes(32).toString('base64url');
   const tokenHash = crypto.createHash('sha256').update(token).digest('hex');
-  await pool.query(
-    "insert into app_sessions (token_hash, user_id, expires_at) values ($1, $2, now() + interval '30 days')",
+  await pool.execute(
+    'insert into app_sessions (token_hash, user_id, expires_at) values (?, ?, date_add(current_timestamp, interval 30 day))',
     [tokenHash, userId],
   );
   return token;
@@ -90,11 +103,11 @@ const authenticate = async (request) => {
   const token = (request.headers.authorization || '').match(/^Bearer ([A-Za-z0-9_-]{40,60})$/)?.[1];
   if (!token) return null;
   const tokenHash = crypto.createHash('sha256').update(token).digest('hex');
-  const result = await pool.query(
-    'select app_users.id, app_users.email from app_sessions join app_users on app_users.id = app_sessions.user_id where app_sessions.token_hash = $1 and app_sessions.expires_at > now()',
+  const [rows] = await pool.execute(
+    'select app_users.id, app_users.email from app_sessions join app_users on app_users.id = app_sessions.user_id where app_sessions.token_hash = ? and app_sessions.expires_at > current_timestamp',
     [tokenHash],
   );
-  const user = result.rows[0];
+  const user = rows[0];
   return user && allowedUsers.has(user.email) ? user : null;
 };
 
@@ -102,31 +115,43 @@ const initializeDatabase = async () => {
   if (!pool) return;
   await pool.query(`
     create table if not exists app_users (
-      id bigserial primary key,
-      email text not null unique,
-      password_salt bytea not null,
-      password_hash bytea not null,
-      created_at timestamptz not null default now()
-    );
-    create table if not exists app_sessions (
-      token_hash text primary key,
-      user_id bigint not null references app_users(id) on delete cascade,
-      expires_at timestamptz not null
-    );
-    create table if not exists household_state (
-      state_key text primary key,
-      state_value text not null,
-      updated_at timestamptz not null default now()
-    );
-    create table if not exists household_revision (
-      id smallint primary key check (id = 1),
-      revision bigint not null default 0,
-      source_device text not null default '',
-      updated_at timestamptz not null default now()
-    );
-    insert into household_revision (id) values (1) on conflict (id) do nothing;
-    create index if not exists app_sessions_expiry_idx on app_sessions (expires_at);
+      id bigint unsigned not null auto_increment primary key,
+      email varchar(320) not null unique,
+      password_salt varbinary(16) not null,
+      password_hash varbinary(64) not null,
+      created_at timestamp not null default current_timestamp
+    ) engine=InnoDB;
   `);
+  await pool.query(`
+    create table if not exists app_sessions (
+      token_hash char(64) not null primary key,
+      user_id bigint unsigned not null,
+      expires_at datetime not null,
+      created_at timestamp not null default current_timestamp,
+      index app_sessions_user_id_idx (user_id),
+      index app_sessions_expiry_idx (expires_at),
+      constraint app_sessions_user_fk foreign key (user_id) references app_users(id) on delete cascade
+    ) engine=InnoDB;
+  `);
+  await pool.query(`
+    create table if not exists household_state (
+      state_key varchar(120) not null primary key,
+      state_value mediumtext not null,
+      updated_at timestamp not null default current_timestamp on update current_timestamp
+    ) engine=InnoDB;
+  `);
+  await pool.query(`
+    create table if not exists household_revision (
+      id tinyint unsigned not null primary key,
+      revision bigint unsigned not null default 0,
+      source_device varchar(80) not null default '',
+      updated_at timestamp not null default current_timestamp on update current_timestamp
+    ) engine=InnoDB;
+  `);
+  await pool.execute(
+    'insert ignore into household_revision (id, revision, source_device) values (1, 0, ?)',
+    [''],
+  );
   databaseReady = true;
 };
 
@@ -155,17 +180,9 @@ const handleApi = async (request, response, url) => {
     const body = await readJson(request);
     const email = String(body.email || '').trim().toLowerCase();
     const password = String(body.password || '');
-    const inviteCode = String(body.inviteCode || '');
     checkRateLimit(email);
     if (!allowedUsers.has(email)) {
       sendJson(response, 403, { error: 'Este correo no está autorizado para el espacio familiar.' });
-      return;
-    }
-    const configuredInvite = process.env.SIGNUP_INVITE_CODE || '';
-    const inviteMatches = configuredInvite.length > 0 && inviteCode.length === configuredInvite.length &&
-      crypto.timingSafeEqual(Buffer.from(inviteCode), Buffer.from(configuredInvite));
-    if (!inviteMatches) {
-      sendJson(response, 403, { error: 'El código de invitación no es válido.' });
       return;
     }
     if (!/^\S+@\S+\.\S+$/.test(email) || password.length < 10 || password.length > 200) {
@@ -175,14 +192,16 @@ const handleApi = async (request, response, url) => {
     const salt = crypto.randomBytes(16);
     const passwordHash = await makePasswordHash(password, salt);
     try {
-      const result = await pool.query(
-        'insert into app_users (email, password_salt, password_hash) values ($1, $2, $3) returning id, email',
+      const [result] = await pool.execute(
+        'insert into app_users (email, password_salt, password_hash) values (?, ?, ?)',
         [email, salt, passwordHash],
       );
-      const user = result.rows[0];
-      sendJson(response, 201, { token: await issueSession(user.id), user: { email: user.email } });
+      sendJson(response, 201, {
+        token: await issueSession(result.insertId),
+        user: { email },
+      });
     } catch (error) {
-      if (error.code === '23505') {
+      if (error.code === 'ER_DUP_ENTRY') {
         sendJson(response, 409, { error: 'Ya existe una cuenta con ese correo.' });
         return;
       }
@@ -195,11 +214,11 @@ const handleApi = async (request, response, url) => {
     const body = await readJson(request);
     const email = String(body.email || '').trim().toLowerCase();
     checkRateLimit(email);
-    const result = await pool.query(
-      'select id, email, password_salt, password_hash from app_users where email = $1',
+    const [rows] = await pool.execute(
+      'select id, email, password_salt, password_hash from app_users where email = ?',
       [email],
     );
-    const user = result.rows[0];
+    const user = rows[0];
     let passwordMatches = false;
     if (user && typeof body.password === 'string') {
       const candidate = await makePasswordHash(body.password, user.password_salt);
@@ -231,20 +250,22 @@ const handleApi = async (request, response, url) => {
   if (request.method === 'POST' && url.pathname === '/api/auth/logout') {
     const token = request.headers.authorization.slice('Bearer '.length);
     const tokenHash = crypto.createHash('sha256').update(token).digest('hex');
-    await pool.query('delete from app_sessions where token_hash = $1', [tokenHash]);
+    await pool.execute('delete from app_sessions where token_hash = ?', [tokenHash]);
     sendJson(response, 200, { ok: true });
     return;
   }
 
   if (request.method === 'GET' && url.pathname === '/api/household/state') {
-    const [state, revision] = await Promise.all([
+    const [stateResult, revisionResult] = await Promise.all([
       pool.query('select state_key, state_value from household_state order by state_key'),
       pool.query('select revision, source_device, updated_at from household_revision where id = 1'),
     ]);
+    const [stateRows] = stateResult;
+    const [revisionRows] = revisionResult;
     sendJson(response, 200, {
-      state: Object.fromEntries(state.rows.map((row) => [row.state_key, row.state_value])),
-      revision: Number(revision.rows[0].revision),
-      updatedAt: revision.rows[0].updated_at,
+      state: Object.fromEntries(stateRows.map((row) => [row.state_key, row.state_value])),
+      revision: Number(revisionRows[0].revision),
+      updatedAt: revisionRows[0].updated_at,
     });
     return;
   }
@@ -264,27 +285,33 @@ const handleApi = async (request, response, url) => {
       return;
     }
 
-    const database = await pool.connect();
+    const database = await pool.getConnection();
     try {
-      await database.query('begin');
+      await database.beginTransaction();
       for (const [key, value] of entries) {
         if (value === null) {
-          await database.query('delete from household_state where state_key = $1', [key]);
+          await database.execute('delete from household_state where state_key = ?', [key]);
         } else {
-          await database.query(
-            'insert into household_state (state_key, state_value) values ($1, $2) on conflict (state_key) do update set state_value = excluded.state_value, updated_at = now()',
+          await database.execute(
+            'insert into household_state (state_key, state_value) values (?, ?) on duplicate key update state_value = values(state_value), updated_at = current_timestamp',
             [key, value],
           );
         }
       }
-      const result = await database.query(
-        "update household_revision set revision = revision + 1, source_device = $1, updated_at = now() where id = 1 returning revision, updated_at",
+      await database.execute(
+        'update household_revision set revision = revision + 1, source_device = ?, updated_at = current_timestamp where id = 1',
         [deviceId],
       );
-      await database.query('commit');
-      sendJson(response, 200, { revision: Number(result.rows[0].revision), updatedAt: result.rows[0].updated_at });
+      const [revisionRows] = await database.query(
+        'select revision, updated_at from household_revision where id = 1',
+      );
+      await database.commit();
+      sendJson(response, 200, {
+        revision: Number(revisionRows[0].revision),
+        updatedAt: revisionRows[0].updated_at,
+      });
     } catch (error) {
-      await database.query('rollback');
+      await database.rollback();
       throw error;
     } finally {
       database.release();
@@ -299,11 +326,11 @@ const handleApi = async (request, response, url) => {
       sendJson(response, 400, { error: 'La revisión solicitada no es válida.' });
       return;
     }
-    const result = await pool.query('select revision, source_device from household_revision where id = 1');
-    const revision = Number(result.rows[0].revision);
+    const [rows] = await pool.query('select revision, source_device from household_revision where id = 1');
+    const revision = Number(rows[0].revision);
     sendJson(response, 200, {
       revision,
-      changed: revision > since && result.rows[0].source_device !== deviceId,
+      changed: revision > since && rows[0].source_device !== deviceId,
     });
     return;
   }
@@ -366,8 +393,8 @@ http.createServer(async (request, response) => {
 
 if (pool) {
   initializeDatabase().catch((error) => {
-    console.error('PostgreSQL initialization failed:', error.message);
+    console.error('MySQL initialization failed:', error.message);
   });
 } else {
-  console.warn('DATABASE_URL is not set; the static app is available but the API is disabled.');
+  console.warn('MySQL is not configured; the static app is available but the API is disabled.');
 }

@@ -89,8 +89,6 @@
       ? '¿Ya tienes cuenta?'
       : '¿Aún no tienes cuenta?';
     document.getElementById('authSwitch').textContent = signup ? 'Iniciar sesión' : 'Crear cuenta';
-    document.getElementById('inviteField').hidden = !signup;
-    document.getElementById('authInvite').required = signup;
     document.getElementById('authPassword').autocomplete = signup ? 'new-password' : 'current-password';
     setMessage('');
   };
@@ -286,7 +284,6 @@
           body: JSON.stringify({
             email,
             password,
-            inviteCode: signup ? document.getElementById('authInvite').value : undefined,
           }),
         });
         await openSession(result.token, result.user.email);
