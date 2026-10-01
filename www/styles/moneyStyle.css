@@ -1,0 +1,84 @@
+.moneyTitle {
+  display: block;
+  font-size: 28px;
+  color: var(--money-title);
+  text-align: left;
+}
+
+.moneyInfo {
+  padding-bottom: 16px;
+
+  font-size: 50px;
+  font-weight: 500;
+  color: var(--money-info);
+  text-align: center;
+}
+
+.moneyButtonAdd {
+  margin: 0 0 0 16px;
+
+  font-family: PoppinsFont, Roboto, Noto, sans-serif;
+  font-size: 14px;
+  color: var(--mini-button-font);
+  text-align: center;
+
+  background: var(--mini-button-back);
+  border-radius: 10px;
+  box-shadow: none;
+}
+
+.moneyButtonAdd:active {
+  background: var(--flat-button-active-color);
+}
+
+.moneyButtonRe {
+  margin: 0 0 0 16px;
+
+  font-family: PoppinsFont, Roboto, Noto, sans-serif;
+  font-size: 14px;
+  color: var(--flat-button-light-color-text);
+  text-align: center;
+
+  background: var(--flat-button-light-color);
+  border-radius: 10px;
+  box-shadow: none;
+}
+
+.moneyButtonRe:active {
+  background: var(--flat-button-light-active-color);
+}
+
+.moneyButtonDe {
+  margin: 0 0 0 16px;
+
+  font-family: PoppinsFont, Roboto, Noto, sans-serif;
+  font-size: 14px;
+  color: var(--mini-button-light-font);
+  text-align: center;
+
+  background: var(--mini-button-light-back);
+  border: 1px solid var(--text-area-border-color);
+  border-radius: 10px;
+  box-shadow: none;
+}
+
+.moneyButtonDe:active {
+  background: var(--flat-button-light-active-color);
+}
+
+.cover-label {
+  width: 100%;
+  margin-top: -20px;
+  margin-bottom: 16px;
+
+  font-size: 26px;
+  color: var(--money-dots);
+  text-align: center;
+}
+
+.moneyCard {
+  margin-bottom: 32px;
+  padding: 16px 16px 0;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px 0 rgb(112 144 176 / 20%);
+}

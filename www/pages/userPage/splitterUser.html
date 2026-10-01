@@ -1,0 +1,140 @@
+<ons-page id="splitterUser">
+  <ons-splitter>
+    <ons-splitter-side id="menu" side="left" width="85%" height="100%" swipeable collapse>
+      <ons-page
+        style="
+          border-top-right-radius: 25px;
+          border-bottom-right-radius: 25px;
+          margin-top: -16px;
+        "
+      >
+        <ons-list id="userSplitterList" class="menuList">
+          <ons-list-item
+            onclick="fn.load('pages/userPage/userHome.html')"
+            tappable
+            modifier="nodivider"
+            class="menuItem"
+          >
+            <img
+              src="./assets/icons/menu_icons/homeOption.png"
+              alt="main icon"
+              class="menuIcon iconHome"
+              id="mainIconMenu"
+            />
+            <label class="labelMenu" id="menuLabelHome">Inicio</label>
+          </ons-list-item>
+
+          <ons-list-item
+            onclick="fn.load('pages/goalPage/goals.html')"
+            tappable
+            modifier="nodivider"
+            class="menuItem"
+          >
+            <img
+              src="./assets/icons/menu_icons/goalOption.png"
+              alt="goal icon"
+              class="menuIcon iconHome"
+              id="goalIconMenu"
+            />
+            <label class="labelMenu" style="margin-left: 8px" id="menuLabelGoals"
+              >Metas</label
+            >
+          </ons-list-item>
+
+          <ons-list-item
+            onclick="fn.load('pages/savingPage/savings.html')"
+            tappable
+            modifier="nodivider"
+            class="menuItem"
+          >
+            <img
+              src="./assets/icons/menu_icons/savingOption.png"
+              alt="saving icon"
+              class="menuIcon iconHome"
+              id="savingIconMenu"
+            />
+            <label class="labelMenu" id="menuLabelSaved">Fondo</label>
+          </ons-list-item>
+
+          <ons-list-item
+            onclick="fn.load('pages/expensePage/expenses.html')"
+            tappable
+            modifier="nodivider"
+            class="menuItem"
+          >
+            <img
+              src="./assets/icons/menu_icons/expensesOption.png"
+              alt="expenses icon"
+              class="menuIcon iconHome"
+              id="expenseIconMenu"
+            />
+            <label class="labelMenu" style="margin-left: 5px" id="menuLabelExpenses"
+              >Gastos</label
+            >
+          </ons-list-item>
+
+          <ons-list-item
+            id="closeSesionItem"
+            onclick="fn.load('pages/moneyPage/money.html')"
+            tappable
+            modifier="nodivider"
+            class="menuItem"
+          >
+            <img
+              src="./assets/icons/menu_icons/moneyOption.png"
+              alt="money icon"
+              class="menuIcon iconHome"
+              id="moneyIconMenu"
+            />
+            <label class="labelMenu" style="margin-left: 3px" id="menuLabelMoney"
+              >Mi dinero</label
+            >
+          </ons-list-item>
+
+          <ons-list-item
+            id="closeSesionItem"
+            onclick="fn.load('pages/configurationPage/configuration.html')"
+            tappable
+            modifier="nodivider"
+            class="menuItem"
+          >
+            <img
+              src="./assets/icons/menu_icons/settingsOption.png"
+              alt="settings icon"
+              class="menuIcon iconHome"
+              id="settingsIconMenu"
+            />
+            <label class="labelMenu" style="margin-left: 3px" id="menuLabelConfiguration"
+              >Configuración</label
+            >
+          </ons-list-item>
+        </ons-list>
+      </ons-page>
+    </ons-splitter-side>
+    <ons-splitter-content
+      id="content"
+      page="pages/userPage/userHome.html"
+    ></ons-splitter-content>
+  </ons-splitter>
+  <script>
+    document.addEventListener(
+      'show',
+      function (event) {
+        if (event.target.matches('#splitterUser')) {
+          // PERMITO QUE EL MENU SE DESLICE
+          let menuSlider = document.getElementById('menu');
+          menuSlider.setAttribute('swipeable');
+
+          const lang = getLang('menuOptions');
+          document.getElementById('menuLabelHome').innerHTML = lang.home;
+          document.getElementById('menuLabelGoals').innerHTML = lang.goals;
+          document.getElementById('menuLabelSaved').innerHTML = lang.saved;
+          document.getElementById('menuLabelExpenses').innerHTML = lang.expenses;
+          document.getElementById('menuLabelMoney').innerHTML = lang.myMoney;
+          document.getElementById('menuLabelConfiguration').innerHTML = lang.settings;
+        }
+      },
+      false,
+    );
+  </script>
+</ons-page>

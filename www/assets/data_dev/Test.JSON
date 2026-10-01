@@ -1,0 +1,88 @@
+{
+  "Metas": {
+    "fix": {
+      "[SOLVED] Añadir loader": "al intentar cargar o ver el porque de la carga",
+      "[SOLVED] Modificar dinero": "Texto dinero actual == undefined, LS: nameSaved == undefined",
+      "[SOLVED] Texto se sobrepone": "Texto nombre de la meta se sobre pone con días restantes",
+      "[SOLVED] Mostrar que color esta seleccionado": null,
+      "[PENDING] Modificaciones de dinero": "Muestran siempre la opción else, excep: Llega a la meta",
+      "[STRANGE] Gradiente": "No carga en home page"
+    },
+    "data": {
+      "goalStorage": [
+        {
+          "goalName": "Viaje a Europa",
+          "goalDescription": "Viajar por varios países europeos y experimentar su cultura y paisajes.",
+          "goalMoney": "8000.00",
+          "goalActualMoney": 0,
+          "goalDate": "2024-06-15",
+          "goalGradient": "--gradient_0",
+          "iconName": "flight_takeoff.png",
+          "iconUrl": "./assets/icons/icons_list/travel/"
+        },
+        {
+          "goalName": "Cámara Nueva",
+          "goalDescription": "Comprar una cámara fotográfica de alta calidad para mejorar mis habilidades en la fotografía.",
+          "goalMoney": "1500.00",
+          "goalActualMoney": 0,
+          "goalDate": "2023-12-30",
+          "goalGradient": "--gradient_6",
+          "iconName": "photo_camera.png",
+          "iconUrl": "./assets/icons/icons_list/camera/"
+        },
+        {
+          "goalName": "Ahorro de Emergencias",
+          "goalDescription": "Crear un fondo de ahorro destinado a emergencias inesperadas para tener tranquilidad financiera.",
+          "goalMoney": "3000.00",
+          "goalActualMoney": 0,
+          "goalDate": "Sin datos de fecha.",
+          "goalGradient": "--gradient_9",
+          "iconName": "healing.png",
+          "iconUrl": "./assets/icons/icons_list/fix/"
+        }
+      ]
+    }
+  },
+  "Saving": {
+    "fix": {
+      "[PENDING] Evitar reducción de días": "Al llegar los días a 0 se siguen reduciendo"
+    },
+    "data": {
+      "savingStorage": [
+        {
+          "expenseName": "Comida",
+          "totalExpense": 0,
+          "mainDate": "2023-08-27",
+          "toShow": true,
+          "expenseGradient": "--gradient_6",
+          "expenseColor": "#74f2ce",
+          "expenseColor1": "#7cffcb",
+          "iconName": "bakery_dining.png",
+          "iconUrl": "./assets/icons/icons_list/food/"
+        },
+        {
+          "expenseName": "Transporte",
+          "totalExpense": 0,
+          "mainDate": "2023-08-27",
+          "toShow": true,
+          "expenseGradient": "--gradient_5",
+          "expenseColor": "#96c1dc",
+          "expenseColor1": "#d9d4ed",
+          "iconName": "directions_bus.png",
+          "iconUrl": "./assets/icons/icons_list/transport/"
+        },
+        {
+          "expenseName": "Entretenimiento",
+          "totalExpense": 0,
+          "mainDate": "2023-08-27",
+          "toShow": true,
+          "expenseGradient": "--gradient_9",
+          "expenseColor": "#fb8085",
+          "expenseColor1": "#f9c1b1",
+          "iconName": "desktop_windows.png",
+          "iconUrl": "./assets/icons/icons_list/pc/"
+        }
+      ]
+    }
+  }
+}

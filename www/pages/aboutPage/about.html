@@ -1,0 +1,59 @@
+<ons-page id="about">
+  <ons-toolbar id="toolbar" class="toolbar" modifier="transparent">
+    <ons-back-button></ons-back-button>
+    <div class="center labelToolbar" id="titleConfigurationAbout">ACERCA DE</div>
+  </ons-toolbar>
+
+  <ons-card style="padding: 16px">
+    <img
+      class="logoLoadPage"
+      src="./assets/images/billete.png"
+      alt="Logo aplicación"
+      width="75%"
+      style="display: block; margin-left: auto; margin-right: auto"
+    />
+    <p class="paraTutorial" style="font-weight: bold">Flynanz</p>
+    <p class="paraTutorial" id="aboutAppDesc">
+      Aplicación sencilla para el control de gastos y finanzas personales.
+    </p>
+    <p class="paraTutorial" id="aboutTech">Tecnologías utilizadas:</p>
+    <p class="paraTutorial" style="text-align: left">● HTML5, CSS3, JS</p>
+    <p class="paraTutorial" style="text-align: left">● Cordova</p>
+    <p class="paraTutorial" style="text-align: left">● OnsenUI</p>
+  </ons-card>
+
+  <ons-card style="padding: 16px">
+    <label class="paraTutorial" id="aboutAuthor">
+      <!--autor-->
+    </label>
+    <label class="paraTutorial" id="aboutVersion">
+      <!--version-->
+    </label>
+    <label class="paraTutorial" id="aboutCode"></label>
+    <label class="paraTutorial" id="aboutTerms"></label>
+  </ons-card>
+
+  <script>
+    document.addEventListener(
+      'init',
+      function (event) {
+        if (event.target.matches('#about')) {
+          let lang = getLang('about');
+          document.getElementById('titleConfigurationAbout').innerHTML = lang.about;
+          document.getElementById('aboutAppDesc').innerHTML = lang.desc;
+          document.getElementById('aboutTech').innerHTML = lang.stack;
+
+          document.getElementById('aboutAuthor').innerHTML = `${lang.auth}:
+            <span style="color: var(--home-total-money)">OscarFDA</span>`;
+          document.getElementById('aboutVersion').innerHTML = `${lang.v}: 
+            <span style="color: var(--home-total-money)">2.01.00</span>`;
+          document.getElementById('aboutCode').innerHTML = `${lang.code}:
+              <a href="https://github.com/OscarFDiaz/Flynanz_App" style="color: var(--home-total-money)">${lang.touch}</a>`;
+          document.getElementById('aboutTerms').innerHTML = `${lang.policy}:
+              <a href="https://github.com/OscarFDiaz/Flynanz_App/blob/main/www/assets/policy/PolicyTerms.md" style="color: var(--home-total-money)">${lang.touch}</a>`;
+        }
+      },
+      false,
+    );
+  </script>
+</ons-page>

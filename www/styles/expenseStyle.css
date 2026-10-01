@@ -1,0 +1,90 @@
+/* stylelint-disable custom-property-pattern */
+
+/* MAIN EXPENSE */
+.expenseTitle {
+  display: block;
+  font-size: 28px;
+  color: var(--expense-title);
+  text-align: left;
+}
+
+.expenseInfo {
+  display: block;
+  font-size: 18px;
+  color: var(--expense-info);
+  text-align: left;
+}
+
+.expenseIcon {
+  font-size: 28px;
+  color: var(--expenseIconColorPrev, var(--menu-icon-color));
+}
+
+.expenseIconContainer {
+  position: relative;
+  top: 50%;
+
+  float: right;
+
+  width: 70px;
+  height: 70px;
+  margin: -40px 16px 0 0;
+
+  background: var(--icon-holder);
+}
+
+.expenseCard {
+  min-height: 107px;
+  margin: 16px 20px 0;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px 0 rgb(112 144 176 / 20%);
+}
+
+/* NEW EXPENSE */
+
+.iconExpenseLabel {
+  display: block;
+  font-size: 18px;
+  color: var(--expense-detail);
+  text-align: center;
+}
+
+.expenseIconList {
+  font-size: 50px;
+  color: var(--expenseIconColor, #fff);
+}
+
+.expenseIconList:active {
+  background-color: var(--color-2);
+}
+
+.list-item__expandable-content {
+  padding: 0 0 16px;
+}
+
+.list-item.expanded > .list-item__expandable-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  height: auto;
+  text-align: left;
+}
+
+/* DETAIL EXPENSE */
+
+.labelDetailExpense {
+  display: block;
+
+  padding-top: 16px;
+
+  font-size: 14px;
+  font-weight: 400;
+  font-style: normal;
+  color: var(--expense-detail);
+  text-align: left;
+}
+
+.labelInfoDetailExpense {
+  font-size: 30px;
+  font-weight: 600;
+  color: var(--expense-detail-money);
+}

@@ -1,0 +1,93 @@
+<ons-page id="detailGoal">
+  <ons-toolbar id="toolbar" class="toolbar" modifier="transparent">
+    <ons-back-button></ons-back-button>
+    <div class="center labelToolbar" id="titleDetailGoal">
+      Aquí se carga el nombre de la meta
+    </div>
+  </ons-toolbar>
+
+  <!--SE CARGA LOS DETALLES DE LA META-->
+  <div id="goalDetailContainer"></div>
+
+  <!--ALERT PARA EDITAR UNICAMENTE EL DINERO-->
+  <ons-alert-dialog id="alertEditGoalMoney" modifier="material">
+    <div class="alert-dialog-title" style="text-align: center" id="modifyGoalTitleMoney">
+      Modificar dinero
+    </div>
+
+    <div class="alert-dialog-content">
+      <div style="text-align: center; margin-top: 16px">
+        <label style="color: var(--alert-custom-label)" id="goalCurrentMoneyAlertEdit">
+          <!--SE INSERTA EN EL LISTENER-->
+        </label>
+
+        <div id="alertEditGoalMoneyOptionsAlert">
+          <ons-button
+            class="moneyButtonAdd"
+            onclick="insertActionEditGoal('add')"
+            style="margin-bottom: 16px; margin-top: 16px; margin-left: 0px; width: 90%"
+            id="newMoneyCancelButton"
+          >
+            <i class="icon ion-md-add" style="font-size: 14px; margin-right: 16px"></i>
+            Añadir dinero
+          </ons-button>
+
+          <ons-button
+            class="moneyButtonAdd"
+            onclick="insertActionEditGoal('remove')"
+            style="margin-bottom: 16px; margin-left: 0px; width: 90%"
+            id="newMoneyCancelButton"
+          >
+            <i class="icon ion-md-remove" style="font-size: 14px; margin-right: 16px"></i>
+            Restar dinero
+          </ons-button>
+        </div>
+
+        <label style="color: var(--alert-custom-label)" id="goalNewMoneyAlertEdit">
+          <!--SE INSERTA EN EL LISTENER-->
+        </label>
+      </div>
+    </div>
+
+    <div class="alert-dialog-footer">
+      <ons-alert-dialog-button
+        onclick="hideAlertNoChangeMoney()"
+        id="goalCancelButtonMoneyAlertEdit"
+        >Cancelar</ons-alert-dialog-button
+      >
+      <ons-alert-dialog-button
+        onclick="hideAlertDialogMoney()"
+        id="goalFinishedButtonMoneyAlertEdit"
+        >Listo!</ons-alert-dialog-button
+      >
+    </div>
+  </ons-alert-dialog>
+
+  <script>
+    document.addEventListener(
+      'init',
+      function (event) {
+        if (event.target.matches('#detailGoal')) {
+          loadDetailGoal();
+
+          let lang = getLang('goals');
+          /* ALERT QUE MODIFICA DINERO */
+          document.getElementById('modifyGoalTitleMoney').innerHTML = lang.modifyMoney;
+          document.getElementById(
+            'goalCurrentMoneyAlertEdit',
+          ).innerHTML = `${lang.moneyCurrent}: $
+          <label id="editOnlyMoneyActualMoney" style="color: var(--alert-custom-label-money)">0</label>`;
+          document.getElementById(
+            'goalNewMoneyAlertEdit',
+          ).innerHTML = `${lang.moneyNew}: $
+          <label id="editOnlyEndMoney" style="color: var(--alert-custom-label-money)">0</label>`;
+          document.getElementById('goalCancelButtonMoneyAlertEdit').innerHTML =
+            lang.cancel;
+          document.getElementById('goalFinishedButtonMoneyAlertEdit').innerHTML =
+            lang.ready;
+        }
+      },
+      false,
+    );
+  </script>
+</ons-page>

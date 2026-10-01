@@ -1,0 +1,284 @@
+<ons-page id="newGoal">
+  <ons-toolbar id="toolbar" class="toolbar" modifier="transparent">
+    <ons-back-button></ons-back-button>
+
+    <div class="center labelToolbar" id="titleNewGoal">NUEVA META</div>
+  </ons-toolbar>
+
+  <div class="content" style="margin: 0px 20px 0px 20px">
+    <div style="text-align: center; padding-top: 16px">
+      <div>
+        <p
+          style="
+            margin: 0px auto -16px 12px;
+            text-align: left;
+            color: var(--color-input-label);
+          "
+          id="newGoalNameInput"
+        >
+          NOMBRE DE LA META
+        </p>
+        <ons-input
+          id="newGoalName"
+          modifier="underbar"
+          placeholder=""
+          type="text"
+          style="display: block; margin: 0px auto 16px auto"
+        ></ons-input>
+      </div>
+
+      <div>
+        <p
+          style="
+            margin: 16px auto 0px 12px;
+            text-align: left;
+            color: var(--color-input-label);
+          "
+          id="newGoalDescInput"
+        >
+          DESCRIPCIÓN DE LA META
+        </p>
+        <textarea
+          id="newGoalDescription"
+          class="textarea"
+          rows="5"
+          placeholder=""
+        ></textarea>
+      </div>
+
+      <div>
+        <p
+          style="
+            margin: 16px auto -33px 12px;
+            text-align: left;
+            color: var(--color-input-label);
+          "
+          id="newGoalMoneyInput"
+        >
+          DINERO NECESARIO
+        </p>
+        <ons-input
+          id="newGoalMoney"
+          modifier="underbar"
+          placeholder=""
+          type="number"
+          style="display: block; margin: 16px auto"
+        ></ons-input>
+      </div>
+
+      <div>
+        <p
+          style="
+            margin: 0px auto -33px 12px;
+            text-align: left;
+            color: var(--color-input-label);
+          "
+          id="newMoneyDateInput"
+        >
+          FECHA META
+        </p>
+        <ons-input
+          id="newGoalDate"
+          modifier="underbar"
+          placeholder=""
+          type="date"
+          style="display: block; margin: 16px auto"
+        ></ons-input>
+      </div>
+    </div>
+
+    <!--Seleccion de icono-->
+    <p
+      style="
+        margin: 16px auto 0px 12px;
+        text-align: left;
+        color: var(--color-input-label);
+      "
+      id="newGoalIcon"
+    >
+      SELECCIONA UN ICONO
+    </p>
+    <div
+      style="
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        gap: 16px;
+      "
+    >
+      <div
+        style="
+          border: 2px solid var(--color-input);
+          border-radius: 15px;
+          margin-bottom: 16px;
+          flex: 1;
+        "
+      >
+        <ons-list style="background: none; margin-top: -16px">
+          <ons-list-item id="expandableListContainerGoal" expandable>
+            <p
+              style="
+                margin: 0px auto 0px 12px;
+                text-align: left;
+                color: var(--card-content-text-color);
+              "
+              id="newExpenseIconLabelGoal"
+            >
+              CLICK PARA CAMBIAR
+            </p>
+            <div
+              class="expandable-content"
+              id="expenseIconListOfIconsGoal"
+              style="background-color: var(--color-input)"
+            >
+              <!-- AQUI SE CARGAN LOS ICONOS PARA SELECCIONAR -->
+            </div>
+          </ons-list-item>
+        </ons-list>
+      </div>
+      <div style="width: 48px; height: 48px">
+        <img
+          id="imageNewGoalIcon"
+          src="./assets/icons/icons_list/fix/construction.png"
+          style="
+            width: 100%;
+            margin: auto auto;
+            background: var(--color-input);
+            border-radius: 10px;
+          "
+        />
+      </div>
+    </div>
+
+    <!--Seleccion de degradado-->
+    <div id="gradients-container">
+      <p
+        style="
+          margin: 0px auto 0px 12px;
+          text-align: left;
+          color: var(--color-input-label);
+        "
+        id="newMoneyGradientInput"
+      >
+        Color
+      </p>
+      <div class="option">
+        <ons-button
+          id="gd-0"
+          class="gradientButton"
+          style="background: var(--gradient_0)"
+          onclick="gradientButtonClick('--gradient_0')"
+        ></ons-button>
+        <ons-button
+          id="gd-1"
+          class="gradientButton"
+          style="background: var(--gradient_1)"
+          onclick="gradientButtonClick('--gradient_1')"
+        ></ons-button>
+        <ons-button
+          id="gd-2"
+          class="gradientButton"
+          style="background: var(--gradient_2)"
+          onclick="gradientButtonClick('--gradient_2')"
+        ></ons-button>
+        <ons-button
+          id="gd-3"
+          class="gradientButton"
+          style="background: var(--gradient_3)"
+          onclick="gradientButtonClick('--gradient_3')"
+        ></ons-button>
+        <ons-button
+          id="gd-4"
+          class="gradientButton"
+          style="background: var(--gradient_4)"
+          onclick="gradientButtonClick('--gradient_4')"
+        ></ons-button>
+        <ons-button
+          id="gd-5"
+          class="gradientButton"
+          style="background: var(--gradient_5)"
+          onclick="gradientButtonClick('--gradient_5')"
+        ></ons-button>
+        <ons-button
+          id="gd-6"
+          class="gradientButton"
+          style="background: var(--gradient_6)"
+          onclick="gradientButtonClick('--gradient_6')"
+        ></ons-button>
+        <ons-button
+          id="gd-7"
+          class="gradientButton"
+          style="background: var(--gradient_7)"
+          onclick="gradientButtonClick('--gradient_7')"
+        ></ons-button>
+        <ons-button
+          id="gd-9"
+          class="gradientButton"
+          style="background: var(--gradient_8)"
+          onclick="gradientButtonClick('--gradient_8')"
+        ></ons-button>
+        <ons-button
+          id="gd-8"
+          class="gradientButton"
+          style="background: var(--gradient_9)"
+          onclick="gradientButtonClick('--gradient_9')"
+        ></ons-button>
+      </div>
+    </div>
+
+    <div id="buttons-container" class="buttonContainer">
+      <ons-button
+        class="flatButton"
+        onclick="makeNewGoal()"
+        style="margin-left: 0px; margin-right: 0px; margin-top: 0px"
+        id="newGoalFinishedButton"
+      >
+        Listo!
+      </ons-button>
+      <ons-button
+        class="flatButtonLight"
+        onclick="functionPopPage()"
+        style="margin-left: 0px; margin-right: 0px; margin-top: 16px"
+        id="newGoalCancelButton"
+      >
+        Cancelar
+      </ons-button>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener(
+      'init',
+      function (event) {
+        if (event.target.matches('#newGoal')) {
+          ons.ready(function () {
+            const lang = getLang('goals');
+
+            document.getElementById('titleNewGoal').innerHTML = lang.new;
+            document.getElementById('newGoalNameInput').innerHTML = lang.name;
+            document.getElementById('newGoalDescInput').innerHTML = lang.desc;
+            document.getElementById('newGoalMoneyInput').innerHTML = lang.moneyNeed;
+            document.getElementById('newMoneyDateInput').innerHTML = lang.date;
+            document.getElementById('newGoalIcon').innerHTML = lang.icon;
+            document.getElementById('newExpenseIconLabelGoal').innerHTML = lang.change;
+            document.getElementById('newGoalFinishedButton').innerHTML = lang.ready;
+            document.getElementById('newGoalCancelButton').innerHTML = lang.cancel;
+          });
+        }
+      },
+      false,
+    );
+    document.addEventListener(
+      'show',
+      function (event) {
+        if (event.target.matches('#newGoal')) {
+          ons.ready(function () {
+            //Cargo los iconos
+            loadIconsGoal();
+          });
+        }
+      },
+      false,
+    );
+  </script>
+</ons-page>

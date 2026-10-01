@@ -1,0 +1,67 @@
+.list-item--material {
+  padding: 0;
+}
+
+.list-item--material__center {
+  padding-right: 0;
+}
+
+.list-item--material:first-child {
+  margin-top: 16px;
+  box-shadow: none;
+}
+
+.menuItem {
+  background: none;
+}
+
+.menuList {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+
+  height: 100vh;
+
+  background: none;
+}
+
+.menuIcon {
+  display: block;
+  width: 36px;
+  margin-right: 32px;
+  margin-left: 32px;
+}
+
+.iconHome {
+  color: var(--icon-home);
+}
+
+.iconGoals {
+  color: var(--icon-goals);
+}
+
+.iconSavings {
+  color: var(--icon-savings);
+}
+
+.iconExpenses {
+  color: var(--icon-expenses);
+}
+
+.iconMoney {
+  color: var(--icon-money);
+}
+
+.iconConfiguration {
+  color: var(--icon-config);
+}
+
+.labelMenu {
+  margin-right: auto;
+
+  font-size: 20px;
+  font-weight: 500;
+  font-style: normal;
+  color: var(--menu-font-color);
+  text-align: center;
+}
