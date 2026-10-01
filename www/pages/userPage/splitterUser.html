@@ -91,6 +91,16 @@
             >
           </ons-list-item>
 
+            <ons-list-item
+              onclick="FlynanzAuth.signOut()"
+              tappable
+              modifier="nodivider"
+              class="menuItem menuLogout"
+            >
+              <i class="ion-md-log-out menuLogoutIcon" aria-hidden="true"></i>
+              <label class="labelMenu">Cerrar sesión</label>
+            </ons-list-item>
+
           <ons-list-item
             id="closeSesionItem"
             onclick="fn.load('pages/configurationPage/configuration.html')"

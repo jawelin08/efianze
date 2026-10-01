@@ -1,4 +1,4 @@
-const startApp = () => {
+const initializeMainApp = () => {
   // Busco el tema del usuario o defino uno, entre el claro y el oscuro
   let themeSelected = localStorage.getItem('userTheme');
 
@@ -37,9 +37,29 @@ const startApp = () => {
     localStorage.setItem('appVersion', `${currentVersion}`); // Actualizo la versión del storage
   }
 
-  setTimeout(function () {
-    const navigator = document.querySelector('#navigator');
-    navigator.resetToPage('pages/userPage/splitterUser.html');
-  }, 500);
+  document.querySelector('#navigator').resetToPage('pages/userPage/splitterUser.html');
 };
+
+window.resumeAppWithSession = () => {
+  initializeMainApp();
+};
+
+window.showLoginPage = () => {
+  document.querySelector('#navigator').resetToPage('login.html');
+};
+
+const startApp = async () => {
+  try {
+    const session = await FlynanzAuth.initialize();
+    if (session) {
+      window.resumeAppWithSession();
+    } else {
+      document.querySelector('#navigator').resetToPage('login.html');
+    }
+  } catch (error) {
+    document.querySelector('#navigator').resetToPage('login.html');
+    FlynanzAuth.setMessage(error.message, true);
+  }
+};
+
 startApp();

@@ -1,0 +1,1 @@
+window.FLYNANZ_API_BASE_URL = '';

@@ -1,43 +1,35 @@
-# Política de Privacidad
+# Política de Privacidad de NextFinanz
 
-Última actualización: 27/08/2023
+Última actualización: 01/10/2026
 
-## 1. Información de Contacto
+## 1. Responsable y contacto
 
-Esta política de privacidad se aplica a la aplicación Flynanz 💸 desarrollada por Oscar Diaz ("nosotros", "nuestro" o "nos"). Para cualquier pregunta o inquietud relacionada con esta política, puedes ponerte en contacto con nosotros a través de la dirección de correo electrónico: finanz.application@gmail.com.
+NextFinanz es una aplicación de finanzas personales desarrollada por Oscar Diaz. Para consultas sobre privacidad o solicitudes relacionadas con los datos, escribe a `finanz.application@gmail.com`.
 
-## 2. Recopilación y Uso de Información
+## 2. Datos tratados
 
-La aplicación Flynanz 💸 no recopila ningún tipo de información personal de los usuarios. Toda la información que ingreses en la aplicación se guarda directamente en tu dispositivo y no se transmite ni almacena en servidores externos. La aplicación no recopila información automáticamente ni utiliza tecnologías de seguimiento, como cookies.
+La aplicación procesa la dirección de correo electrónico, una contraseña almacenada como hash seguro, tokens de sesión y la información financiera que los usuarios introducen, como carteras, gastos, metas y ahorros. También usa un identificador aleatorio por dispositivo para coordinar la sincronización.
 
-## 3. Propósito de la Recopilación
+## 3. Finalidad y alojamiento
 
-No recopilamos información con ningún propósito específico, ya que la aplicación no recopila información personal ni la utiliza para mejorar la experiencia del usuario u otros fines.
+Estos datos se usan para iniciar sesión y mantener la información del hogar sincronizada entre los dispositivos autorizados. La base de datos se aloja en PostgreSQL en Railway y puede ser accesible para quienes administren ese proyecto. El inicio de sesión y la sincronización requieren conexión a Internet.
 
-## 4. Compartir Información con Terceros
+## 4. Acceso y proveedores
 
-La aplicación Flynanz 💸 no comparte ningún tipo de información con terceros, ya que toda la información ingresada por los usuarios se almacena localmente en sus dispositivos y no se transmite a ninguna entidad externa.
+El API limita las cuentas a los correos autorizados por el administrador del hogar y requiere un código de invitación para el registro. Railway presta el alojamiento del servidor y la base de datos. La aplicación no usa publicidad ni analítica.
 
-## 5. Publicidad y Análisis
+## 5. Conservación y eliminación
 
-La aplicación Flynanz 💸 no utiliza servicios de análisis de terceros ni redes de publicidad. Por lo tanto, no recopilamos información para fines publicitarios ni de análisis.
+La opción «Borrar datos» elimina los datos financieros del hogar sincronizado. Para solicitar la eliminación de una cuenta, escribe al contacto indicado; el cierre de sesión por sí solo no elimina la cuenta ni los datos de la base.
 
-## 6. Derechos de los Usuarios
+## 6. Seguridad y límites
 
-Los usuarios tienen el control total sobre la información que ingresan en la aplicación. Pueden borrar todos los datos almacenados en la aplicación directamente desde el menú de opciones, seleccionando la opción "Borrar Datos". Esta acción eliminará todos los datos previamente ingresados del dispositivo del usuario.
+Las contraseñas se guardan con scrypt y las sesiones usan tokens revocables. El uso de la URL HTTPS de Railway protege el transporte. Los datos financieros no cuentan con cifrado de extremo a extremo: el administrador de PostgreSQL puede leerlos. Mantén privados los datos de acceso y activa copias de seguridad del proyecto.
 
-## 7. Seguridad de la Información
+## 7. Cookies y almacenamiento local
 
-La información ingresada en la aplicación se almacena exclusivamente en el dispositivo del usuario. La seguridad de esta información es responsabilidad del usuario, ya que no se almacena ni se transmite fuera del dispositivo. Cualquier brecha de seguridad estaría relacionada con la seguridad del dispositivo del usuario y no con la aplicación en sí.
+La aplicación no utiliza cookies de seguimiento. Conserva el token de sesión y una copia de trabajo de los datos en el almacenamiento local del navegador o dispositivo. El service worker puede guardar recursos estáticos para abrir la interfaz, pero no almacena respuestas del API.
 
-## 8. Cookies
+## 8. Derechos y cambios
 
-La aplicación Flynanz 💸 no utiliza cookies ni ninguna otra tecnología de seguimiento.
-
-## 9. Cambios en la Política de Privacidad
-
-Los cambios en esta política de privacidad se notificarán a través de las actualizaciones de la aplicación en Google Play. Puedes consultar la sección de "Novedades" en la página de la aplicación para obtener información sobre las actualizaciones y los cambios en la política.
-
-## 10. Consentimiento
-
-Al descargar y utilizar la aplicación Flynanz 💸, estás dando tu consentimiento para que la aplicación almacene los datos que ingreses en tu dispositivo de acuerdo con los términos de esta política de privacidad.
+Puedes solicitar acceso, corrección o eliminación de la información escribiendo a `finanz.application@gmail.com`. Esta política puede actualizarse cuando cambien las funciones de la aplicación; se indicará la fecha de revisión en esta página.

@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.oscar.diaz" versionCode="33" version="2.01.01" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Flynanz</name>
+     <name>NextFinanz</name>
     <description>
-       Flynanz: Control de gastos y finanzas personales.
+         NextFinanz: Control de gastos y finanzas personales.
     </description>
 	
-	<meta name="description" content="Flynanz: Control de gastos y finanzas personales."/>
+    <meta name="description" content="NextFinanz: Control de gastos y finanzas personales."/>
 	
     <author email="finanz.application@gmail.com" href="https://github.com/OscarFDiaz">
         Oscar Diaz

@@ -6,7 +6,11 @@
       name="viewport"
       content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width,  viewport-fit=cover"
     />
-    <meta name="theme-color" content="#FFFFFF" />
+    <meta name="theme-color" content="#edf2e9" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="./assets/branding/apple-touch-icon.png" />
 
     <!--IMPORT DE LOS ESTILOS DE ONSEN UI-->
     <link rel="stylesheet" href="./styles/onsen/onsenui.css" />
@@ -31,11 +35,14 @@
     <link rel="stylesheet" href="./styles/moneyStyle.css" />
     <link rel="stylesheet" href="./styles/configurationStyle.css" />
     <link rel="stylesheet" href="./styles/customTheme.css" />
+    <link rel="stylesheet" href="./styles/appPolish.css" />
 
     <!--IMPORT DE LOS .JS-->
     <script type="text/javascript" src="scripts/chart/Chart.js"></script>
+    <script src="scripts/authConfig.js"></script>
+    <script src="scripts/auth.js"></script>
 
-    <title>Flynanz</title>
+    <title>NextFinanz</title>
   </head>
   <body>
     <ons-navigator id="navigator" page="index.html" var="navigator"></ons-navigator>
@@ -44,7 +51,7 @@
       <ons-page id="indexPage">
         <img
           class="logoLoadPage"
-          src="./assets/images/billete.png"
+          src="./assets/branding/logo.png"
           alt="Logo aplicación"
           width="79%"
           style="display: block; margin-left: auto; margin-right: auto; margin-top: 33%"
@@ -62,6 +69,58 @@
         ></ons-progress-bar>
       </ons-page>
     </ons-template>
+
+    <template id="login.html">
+      <ons-page id="loginPage" class="auth-page">
+        <main class="auth-shell">
+          <header class="auth-brand">
+            <span class="auth-brand-group">
+              <img src="./assets/branding/logo.png" alt="" />
+              <span>NextFinanz</span>
+            </span>
+            <button id="installApp" class="auth-install-button" type="button" hidden>
+              <i class="ion-md-download" aria-hidden="true"></i>
+              Instalar
+            </button>
+          </header>
+          <div class="auth-layout">
+            <section class="auth-intro">
+              <p class="auth-kicker">FINANZAS PERSONALES, CON CALMA</p>
+              <h1>Tu dinero.<br />En perspectiva.</h1>
+              <p class="auth-description">
+                Organiza las metas, gastos y ahorros de su hogar en un mismo espacio.
+              </p>
+              <div class="auth-visual" aria-hidden="true">
+                <div class="auth-visual-heading"><span>Balance mensual</span><b>EN ORDEN</b></div>
+                <div class="auth-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+                <div class="auth-visual-foot"><span>GASTOS</span><span>AHORRO CONSTANTE</span></div>
+              </div>
+            </section>
+            <section class="auth-form-wrap">
+              <form class="auth-form" onsubmit="return FlynanzAuth.submit(event)">
+                <p class="auth-form-kicker">SU HOGAR FINANCIERO</p>
+                <h2 id="authTitle">Bienvenido</h2>
+                <p class="auth-form-copy" id="authCopy">Inicia sesión para continuar.</p>
+                <label class="auth-field-label" for="authEmail">Correo electrónico</label>
+                <input id="authEmail" class="auth-input" type="email" autocomplete="email" required />
+                <label class="auth-field-label" for="authPassword">Contraseña</label>
+                <input id="authPassword" class="auth-input" type="password" autocomplete="current-password" minlength="10" required />
+                <div id="inviteField" class="auth-invite-field" hidden>
+                  <label class="auth-field-label" for="authInvite">Código de invitación</label>
+                  <input id="authInvite" class="auth-input" type="password" autocomplete="off" />
+                </div>
+                <p class="auth-message" id="authMessage" role="status" aria-live="polite"></p>
+                <button class="auth-submit" id="authSubmit" type="submit">Iniciar sesión</button>
+                <p class="auth-switch-line"><span id="authSwitchText">¿Aún no tienes cuenta?</span> <button type="button" class="auth-text-button" id="authSwitch" onclick="FlynanzAuth.toggleMode()">Crear cuenta</button></p>
+                <p class="auth-local-note">Los datos se sincronizan en el servidor privado de su hogar.</p>
+              </form>
+            </section>
+          </div>
+          <footer class="auth-footer">NextFinanz <span>·</span> Orden para sus decisiones</footer>
+        </main>
+      </ons-page>
+    </template>
+    <script src="scripts/pwa.js"></script>
     <script src="scripts/loadScripts.js"></script>
   </body>
 </html>

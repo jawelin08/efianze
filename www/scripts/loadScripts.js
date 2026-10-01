@@ -59,6 +59,7 @@ const loadScripts = () => {
   scriptsToLoad.forEach((script) => {
     const scriptElement = document.createElement('script');
     scriptElement.src = `${script}`;
+    scriptElement.async = false;
     document.body.appendChild(scriptElement);
   });
 };
