@@ -236,6 +236,37 @@ const handleApi = async (request, response, url) => {
     return;
   }
 
+  if (request.method === 'POST' && url.pathname === '/api/auth/reset-password') {
+    const body = await readJson(request);
+    const email = String(body.email || '').trim().toLowerCase();
+    const password = String(body.password || '');
+    checkRateLimit(email);
+    if (!allowedUsers.has(email)) {
+      sendJson(response, 403, { error: 'Este correo no está autorizado para el espacio familiar.' });
+      return;
+    }
+    if (!/^\S+@\S+\.\S+$/.test(email) || password.length < 10 || password.length > 200) {
+      sendJson(response, 400, { error: 'Usa un correo válido y una contraseña de al menos 10 caracteres.' });
+      return;
+    }
+    const [rows] = await pool.execute('select id from app_users where email = ?', [email]);
+    const existingUser = rows[0];
+    if (!existingUser) {
+      sendJson(response, 404, { error: 'No existe una cuenta con ese correo.' });
+      return;
+    }
+    const salt = crypto.randomBytes(16);
+    const passwordHash = await makePasswordHash(password, salt);
+    await pool.execute(
+      'update app_users set password_salt = ?, password_hash = ? where id = ?',
+      [salt, passwordHash, existingUser.id],
+    );
+    // Invalida las sesiones existentes para que un cambio de contraseña cierre sesiones antiguas.
+    await pool.execute('delete from app_sessions where user_id = ?', [existingUser.id]);
+    sendJson(response, 200, { ok: true });
+    return;
+  }
+
   const user = await authenticate(request);
   if (!user) {
     sendJson(response, 401, { error: 'La sesión caducó. Inicia sesión de nuevo.' });

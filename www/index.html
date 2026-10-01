@@ -103,11 +103,13 @@
                 <p class="auth-form-copy" id="authCopy">Inicia sesión para continuar.</p>
                 <label class="auth-field-label" for="authEmail">Correo electrónico</label>
                 <input id="authEmail" class="auth-input" type="email" autocomplete="email" required />
-                <label class="auth-field-label" for="authPassword">Contraseña</label>
+                <label class="auth-field-label" id="authPasswordLabel" for="authPassword">Contraseña</label>
                 <input id="authPassword" class="auth-input" type="password" autocomplete="current-password" minlength="10" required />
                 <p class="auth-message" id="authMessage" role="status" aria-live="polite"></p>
                 <button class="auth-submit" id="authSubmit" type="submit">Iniciar sesión</button>
-                <p class="auth-switch-line"><span id="authSwitchText">¿Aún no tienes cuenta?</span> <button type="button" class="auth-text-button" id="authSwitch" onclick="FlynanzAuth.toggleMode()">Crear cuenta</button></p>
+                <p class="auth-switch-line" id="authForgotLine"><button type="button" class="auth-text-button" id="authForgot" onclick="FlynanzAuth.toggleReset()">¿Olvidaste tu contraseña?</button></p>
+                <p class="auth-switch-line" id="authResetLine" hidden><button type="button" class="auth-text-button" id="authResetBack" onclick="FlynanzAuth.toggleReset()">Volver a iniciar sesión</button></p>
+                <p class="auth-switch-line" id="authSwitchLine"><span id="authSwitchText">¿Aún no tienes cuenta?</span> <button type="button" class="auth-text-button" id="authSwitch" onclick="FlynanzAuth.toggleMode()">Crear cuenta</button></p>
                 <p class="auth-local-note">Los datos se sincronizan en el servidor privado de su hogar.</p>
               </form>
             </section>

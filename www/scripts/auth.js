@@ -80,16 +80,31 @@
 
   const setMode = () => {
     const signup = mode === 'signup';
-    document.getElementById('authTitle').textContent = signup ? 'Crea su cuenta' : 'Bienvenido';
-    document.getElementById('authCopy').textContent = signup
-      ? 'El correo debe estar autorizado para el hogar.'
-      : 'Inicia sesión para continuar.';
-    document.getElementById('authSubmit').textContent = signup ? 'Crear cuenta' : 'Iniciar sesión';
+    const reset = mode === 'reset';
+    document.getElementById('authTitle').textContent = reset
+      ? 'Restablecer contraseña'
+      : signup
+        ? 'Crea su cuenta'
+        : 'Bienvenido';
+    document.getElementById('authCopy').textContent = reset
+      ? 'Escribe tu correo autorizado y la nueva contraseña.'
+      : signup
+        ? 'El correo debe estar autorizado para el hogar.'
+        : 'Inicia sesión para continuar.';
+    document.getElementById('authPasswordLabel').textContent = reset ? 'Nueva contraseña' : 'Contraseña';
+    document.getElementById('authSubmit').textContent = reset
+      ? 'Actualizar contraseña'
+      : signup
+        ? 'Crear cuenta'
+        : 'Iniciar sesión';
     document.getElementById('authSwitchText').textContent = signup
       ? '¿Ya tienes cuenta?'
       : '¿Aún no tienes cuenta?';
     document.getElementById('authSwitch').textContent = signup ? 'Iniciar sesión' : 'Crear cuenta';
-    document.getElementById('authPassword').autocomplete = signup ? 'new-password' : 'current-password';
+    document.getElementById('authSwitchLine').hidden = reset;
+    document.getElementById('authForgotLine').hidden = signup || reset;
+    document.getElementById('authResetLine').hidden = !reset;
+    document.getElementById('authPassword').autocomplete = signup || reset ? 'new-password' : 'current-password';
     setMessage('');
   };
 
@@ -275,18 +290,33 @@
       setMessage('');
       const email = document.getElementById('authEmail').value.trim();
       const password = document.getElementById('authPassword').value;
-      const signup = mode === 'signup';
       const submitButton = document.getElementById('authSubmit');
       submitButton.disabled = true;
       try {
-        const result = await request(signup ? '/api/auth/register' : '/api/auth/login', {
-          method: 'POST',
-          body: JSON.stringify({
-            email,
-            password,
-          }),
-        });
-        await openSession(result.token, result.user.email);
+        if (mode === 'reset') {
+          await request('/api/auth/reset-password', {
+            method: 'POST',
+            body: JSON.stringify({
+              email,
+              password,
+            }),
+          });
+          mode = 'signin';
+          setMode();
+          document.getElementById('authEmail').value = email;
+          document.getElementById('authPassword').value = '';
+          setMessage('Contraseña actualizada. Ya puedes iniciar sesión.');
+        } else {
+          const signup = mode === 'signup';
+          const result = await request(signup ? '/api/auth/register' : '/api/auth/login', {
+            method: 'POST',
+            body: JSON.stringify({
+              email,
+              password,
+            }),
+          });
+          await openSession(result.token, result.user.email);
+        }
       } catch (error) {
         setMessage(error.message, true);
       } finally {
@@ -296,6 +326,10 @@
     },
     toggleMode: () => {
       mode = mode === 'signin' ? 'signup' : 'signin';
+      setMode();
+    },
+    toggleReset: () => {
+      mode = mode === 'reset' ? 'signin' : 'reset';
       setMode();
     },
     signOut: async () => {
